@@ -78,7 +78,10 @@ class Game:
                     hits[0].kill()
                 elif hits[0].variant == "bouncey":
                     self.player.pos.y = hits[0].rect.top
-                    self.player.vel.y = -PLAYER_JUMP
+                    self.player.vel.y = - PLAYER_JUMP
+                elif hits[0].variant == "teleport":
+                    self.player.pos.x = hits[0].rect.top
+                    self.player.vel.y = - PLAYER_ACC
                 else:
                     self.player.pos.y = hits[0].rect.top
                     self.player.vel.y = 0
