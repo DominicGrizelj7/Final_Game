@@ -17,7 +17,7 @@ class Player(Sprite):
         self.image.fill(BLACK)
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH/2, HEIGHT/2)
-        self.pos = vec(WIDTH/3, HEIGHT/3)
+        self.pos = vec(WIDTH - 100, HEIGHT - 100)
         self.vel = vec(0,0)
         self.acc = vec(0,0)
         self.cofric = 0.1
@@ -41,11 +41,16 @@ class Player(Sprite):
         #         print(PAUSED)
     # ...
     def jump(self):
-        self.rect.x += 1
+        self.rect.y += 1
         hits = pg.sprite.spritecollide(self, self.game.platforms, False)
-        self.rect.x -= 1
+        self.rect.y = 1
+        if hits:
+            self.vel.y = -PLAYER_JUMP
         # if hits:
-        self.vel.y = -PLAYER_JUMP
+        #     self.vel.y = -PLAYER_JUMP
+        # else: 
+        #     self.vel.y = 
+        
 # defines boundaries by setting the velocity to 0 once the sprite goes near off the screen
     def inbounds(self):
         if self.rect.x > WIDTH -30:
@@ -79,6 +84,14 @@ class Player(Sprite):
         self.pos += self.vel + 0.5 * self.acc
         self.rect.midbottom = self.pos
         self.inbounds()
+
+
+class Mob(Sprite):
+    def __init__(self,width,height, color):
+        Sprite.__init__(self)
+        
+
+
 
 class Mob(Sprite):
     def __init__(self,width,height, color):

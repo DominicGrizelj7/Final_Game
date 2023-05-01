@@ -13,6 +13,10 @@ from math import floor
 game_folder = os.path.dirname(__file__)
 img_folder = os.path.join(game_folder, "img")
 
+screen = pg.display.set_mode((WIDTH, HEIGHT))
+you_lose = pg.image.load(os.path.join(game_folder, 'you_lose.jpg')).convert()
+lose_rect = you_lose.get_rect()
+
 
 class Cooldown():
         def __init__(self):
@@ -67,6 +71,7 @@ class Game:
             self.events()
             self.update()
             self.draw()
+
     def update(self):
         self.all_sprites.update()
         self.cd.ticking()
@@ -78,10 +83,33 @@ class Game:
                     hits[0].kill()
                 elif hits[0].variant == "bouncey":
                     self.player.pos.y = hits[0].rect.top
-                    self.player.vel.y = - PLAYER_JUMP
+                    self.player.vel.y = - PLAYER_JUMP 
+                elif hits[0].variant == "very_bouncey":
+                    self.player.pos.y = hits[0].rect.top
+                    self.player.vel.y = - PLAYER_JUMP * 4
+                elif hits[0].variant == "wall":
+                    # self.player.pos.x = hits[0].rect.right
+                    # self.player.pos.x = hits[0].rect.left
+                    self.player.vel.x = 0
                 elif hits[0].variant == "teleport":
-                    self.player.pos.x = hits[0].rect.top
-                    self.player.vel.y = - PLAYER_ACC
+                    self.player.pos.x = 100
+                    self.player.pos.y = 250
+                elif hits[0].variant == "1_teleport":
+                    self.player.pos.x = 400
+                    self.player.pos.y = 150
+                elif hits[0].variant == "2_teleport":
+                    self.player.pos.x = 600
+                    self.player.pos.y = 50
+                elif hits[0].variant == "3_teleport":
+                    self.player.pos.x = 800
+                    self.player.pos.y = 150
+                elif hits[0].variant == "4_teleport":
+                    self.player.pos.x = 1000
+                    self.player.pos.y = 50
+                elif hits[0].variant == "winner":
+                        self.player.pos.x = hits[0].rect.top
+                        screen.blit(you_lose, lose_rect)
+                        print("WIN!")
                 else:
                     self.player.pos.y = hits[0].rect.top
                     self.player.vel.y = 0
@@ -91,11 +119,6 @@ class Game:
             if hit:
                 print("you hit enemy")
                 
-
-  
-
-
-    
 
         
     def events(self):
@@ -107,10 +130,32 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     self.player.jump()
+
+
+
+    def draw_text(self, text, size, color, x, y):
+        font_name = pg.font.match_font('aleo')
+        font = pg.font.Font(font_name, size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (x,y)
+        screen.blit(text_surface, text_rect)
+
     def draw(self):
         self.screen.fill(BLUE)
+        if 5 > 2:
+            self.draw_text("YOO", 22, RED, WIDTH/2, HEIGHT/2)
         self.all_sprites.draw(self.screen)
         pg.display.flip()    
+
+    def draw_text(self, text, size, color, x, y):
+        font_name = pg.font.match_font('aleo')
+        font = pg.font.Font(font_name, size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (x,y)
+        screen.blit(text_surface, text_rect)
+
 
 
 # instantiate the game class...
