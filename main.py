@@ -6,6 +6,7 @@ import math
 from settings import *
 from sprites import *
 from math import floor
+from time import sleep
 
 
 # yo
@@ -114,12 +115,21 @@ class Game:
                     self.player.pos.y = hits[0].rect.top
                     self.player.vel.y = 0
 # if the sprite collides with mob sprite than the program quits
+        end_screen = False
         if RUNNING == True:
             hit = pg.sprite.spritecollide(self.player, self.enemies, False)
             if hit:
                 print("you hit enemy")
-                
-
+                end_screen = True
+        if end_screen == True:
+            self.screen.fill(BLUE)
+            if 5 > 2:
+                self.player.pos.x = 1450
+                self.player.pos.y = 900
+                self.draw_text("TRY AGAIN", 100, RED, WIDTH/2, HEIGHT/2)
+                pg.display.flip()
+                sleep(1)
+          
         
     def events(self):
         for event in pg.event.get():
@@ -144,17 +154,10 @@ class Game:
     def draw(self):
         self.screen.fill(BLUE)
         if 5 > 2:
-            self.draw_text("YOO", 22, RED, WIDTH/2, HEIGHT/2)
-        self.all_sprites.draw(self.screen)
-        pg.display.flip()    
+            self.draw_text("DOOR OF WINNERS", 22, BLACK, WIDTH -1365, HEIGHT -860)
+            self.all_sprites.draw(self.screen)
+            pg.display.flip()    
 
-    def draw_text(self, text, size, color, x, y):
-        font_name = pg.font.match_font('aleo')
-        font = pg.font.Font(font_name, size)
-        text_surface = font.render(text, True, color)
-        text_rect = text_surface.get_rect()
-        text_rect.midtop = (x,y)
-        screen.blit(text_surface, text_rect)
 
 
 
