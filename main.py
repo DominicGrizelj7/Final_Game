@@ -1,23 +1,16 @@
 # File created by Dominic Grizelj
+# import libraries and settings
 import pygame as pg
 import os
 import math
-# import settings 
 from settings import *
 from sprites import *
 from math import floor
 from time import sleep
-
-
-# yo
 # set up assets folders
 game_folder = os.path.dirname(__file__)
 img_folder = os.path.join(game_folder, "img")
-
 screen = pg.display.set_mode((WIDTH, HEIGHT))
-you_lose = pg.image.load(os.path.join(game_folder, 'you_lose.jpg')).convert()
-lose_rect = you_lose.get_rect()
-
 
 class Cooldown():
         def __init__(self):
@@ -74,7 +67,7 @@ class Game:
             self.update()
             self.draw()
 
-    win_screen = False
+    # win_screen = False
 
     def update(self):
         self.all_sprites.update()
@@ -114,44 +107,36 @@ class Game:
                     self.player.pos.x = hits[0].rect.top
                     win_screen = True
                     if win_screen == True:
-                        self.screen.fill(BLUE)
+                        self.screen.fill(BLACK)
                         if 3>2:
-                            self.draw_text("YOU WIN!!!", 100, GREEN, WIDTH/2, HEIGHT/2)
-                            self.draw_text("PRESS SPACE ONCE TO PLAY AGAIN", 50, RED, WIDTH/2, HEIGHT/4)
+                            self.draw_text("YOU WIN!!!", 250, GREEN, WIDTH/2, HEIGHT/3)
+                            self.draw_text("PRESS SPACE ONCE TO PLAY AGAIN", 25, RED, WIDTH/2, HEIGHT/2)
                             pg.display.flip()
                             sleep(5)
                             for event in pg.event.get():
                                 if event.type == pg.KEYDOWN:
                                     if event.key == pg.K_SPACE:
-                                        self.draw_text("5", 50, RED, WIDTH/2.2, HEIGHT/3)
+                                        self.draw_text("5", 50, RED, WIDTH/2.2, HEIGHT/1.5)
                                         pg.display.flip()
                                         sleep(1)
-                                        self.draw_text("4", 50, RED, WIDTH/2.1, HEIGHT/3)
+                                        self.draw_text("4", 50, RED, WIDTH/2.1, HEIGHT/1.5)
                                         pg.display.flip()
                                         sleep(1)
-                                        self.draw_text("3", 50, RED, WIDTH/2, HEIGHT/3)
+                                        self.draw_text("3", 50, RED, WIDTH/2.0, HEIGHT/1.5)
                                         pg.display.flip()
                                         sleep(1)
-                                        self.draw_text("2", 50, RED, WIDTH/1.9, HEIGHT/3)
+                                        self.draw_text("2", 50, RED, WIDTH/1.9, HEIGHT/1.5)
                                         pg.display.flip()
                                         sleep(1)
-                                        self.draw_text("1...", 50, RED, WIDTH/1.8, HEIGHT/3)
+                                        self.draw_text("1...", 50, RED, WIDTH/1.8, HEIGHT/1.5)
                                         pg.display.flip()
                                         sleep(1)
                                         self.player.pos.x = 1450
                                         self.player.pos.y = 900
-                                        # self.draw_text("LOADING...", 50, RED, WIDTH/2, HEIGHT/3)
-                                        # pg.display.flip()
-
-
-
-
-
                 else:
                     self.player.pos.y = hits[0].rect.top
                     self.player.vel.y = 0
 
-# if the sprite collides with mob sprite than the program quits
         end_screen = False
         if RUNNING == True:
             hit = pg.sprite.spritecollide(self.player, self.enemies, False)
@@ -159,7 +144,7 @@ class Game:
                 print("you hit enemy")
                 end_screen = True
         if end_screen == True:
-            self.screen.fill(BLUE)
+            self.screen.fill(BLACK)
             if 5 > 2:
                 self.player.pos.x = 1450
                 self.player.pos.y = 900
@@ -167,8 +152,6 @@ class Game:
                 pg.display.flip()
                 sleep(1)
 
-  
-        
     def events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -178,8 +161,6 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     self.player.jump()
-
-
 
     def draw_text(self, text, size, color, x, y):
         font_name = pg.font.match_font('aleo')
@@ -195,10 +176,6 @@ class Game:
             self.draw_text("DOOR OF WINNERS", 22, BLACK, WIDTH -1365, HEIGHT -860)
             self.all_sprites.draw(self.screen)
             pg.display.flip()    
-
-
-
-
 # instantiate the game class...
 g = Game()
 # kick off the game loop
