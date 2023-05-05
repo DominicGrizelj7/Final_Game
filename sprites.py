@@ -46,11 +46,7 @@ class Player(Sprite):
         self.rect.y = 1
         if hits:
             self.vel.y = -PLAYER_JUMP
-        # if hits:
-        #     self.vel.y = -PLAYER_JUMP
-        # else: 
-        #     self.vel.y = 
-        
+
 # defines boundaries by setting the velocity to 0 once the sprite goes near off the screen
     def inbounds(self):
         if self.rect.x > WIDTH -30:
@@ -86,9 +82,6 @@ class Player(Sprite):
         self.inbounds()
 
 
-class Mob(Sprite):
-    def __init__(self,width,height, color):
-        Sprite.__init__(self)
         
 
 

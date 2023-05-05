@@ -42,6 +42,7 @@ class Game:
         self.running = True
         print(self.screen)
         self.font_name = pg.font.match_font(FONT)
+
     def new(self):
         # starting a new game
         self.score = 0
@@ -72,6 +73,8 @@ class Game:
             self.events()
             self.update()
             self.draw()
+
+    win_screen = False
 
     def update(self):
         self.all_sprites.update()
@@ -108,12 +111,46 @@ class Game:
                     self.player.pos.x = 1000
                     self.player.pos.y = 50
                 elif hits[0].variant == "winner":
-                        self.player.pos.x = hits[0].rect.top
-                        screen.blit(you_lose, lose_rect)
-                        print("WIN!")
+                    self.player.pos.x = hits[0].rect.top
+                    win_screen = True
+                    if win_screen == True:
+                        self.screen.fill(BLUE)
+                        if 3>2:
+                            self.draw_text("YOU WIN!!!", 100, GREEN, WIDTH/2, HEIGHT/2)
+                            self.draw_text("PRESS SPACE ONCE TO PLAY AGAIN", 50, RED, WIDTH/2, HEIGHT/4)
+                            pg.display.flip()
+                            sleep(5)
+                            for event in pg.event.get():
+                                if event.type == pg.KEYDOWN:
+                                    if event.key == pg.K_SPACE:
+                                        self.draw_text("5", 50, RED, WIDTH/2.2, HEIGHT/3)
+                                        pg.display.flip()
+                                        sleep(1)
+                                        self.draw_text("4", 50, RED, WIDTH/2.1, HEIGHT/3)
+                                        pg.display.flip()
+                                        sleep(1)
+                                        self.draw_text("3", 50, RED, WIDTH/2, HEIGHT/3)
+                                        pg.display.flip()
+                                        sleep(1)
+                                        self.draw_text("2", 50, RED, WIDTH/1.9, HEIGHT/3)
+                                        pg.display.flip()
+                                        sleep(1)
+                                        self.draw_text("1...", 50, RED, WIDTH/1.8, HEIGHT/3)
+                                        pg.display.flip()
+                                        sleep(1)
+                                        self.player.pos.x = 1450
+                                        self.player.pos.y = 900
+                                        # self.draw_text("LOADING...", 50, RED, WIDTH/2, HEIGHT/3)
+                                        # pg.display.flip()
+
+
+
+
+
                 else:
                     self.player.pos.y = hits[0].rect.top
                     self.player.vel.y = 0
+
 # if the sprite collides with mob sprite than the program quits
         end_screen = False
         if RUNNING == True:
@@ -129,7 +166,8 @@ class Game:
                 self.draw_text("TRY AGAIN", 100, RED, WIDTH/2, HEIGHT/2)
                 pg.display.flip()
                 sleep(1)
-          
+
+  
         
     def events(self):
         for event in pg.event.get():
