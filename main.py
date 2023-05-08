@@ -111,6 +111,7 @@ class Game:
                         if 3>2:
                             self.draw_text("YOU WIN!!!", 250, GREEN, WIDTH/2, HEIGHT/3)
                             self.draw_text("PRESS SPACE ONCE TO PLAY AGAIN", 25, RED, WIDTH/2, HEIGHT/2)
+                            self.draw_text("PRESS ESCAPE TO QUIT", 25, RED, WIDTH/2, HEIGHT/1.9)
                             pg.display.flip()
                             sleep(5)
                             for event in pg.event.get():
@@ -132,7 +133,9 @@ class Game:
                                         pg.display.flip()
                                         sleep(1)
                                         self.player.pos.x = 1450
-                                        self.player.pos.y = 900
+                                        self.player.pos.y = 900 
+                                    if event.key == pg.K_ESCAPE:
+                                        pg.quit()
                 else:
                     self.player.pos.y = hits[0].rect.top
                     self.player.vel.y = 0
