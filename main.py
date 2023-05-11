@@ -1,4 +1,13 @@
 # File created by Dominic Grizelj
+
+
+
+# Sources: http://kidscancode.org/blog/2016/08/pygame_1-1_getting-started/
+# Sources: Daniel Azevedo
+# Sources: Chris Cozert
+# Sources: https://www.w3schools.com/python/python_variables.asp
+
+
 # import libraries and settings
 import pygame as pg
 import os
@@ -37,14 +46,11 @@ class Game:
         self.font_name = pg.font.match_font(FONT)
 
     def new(self):
-        # starting a new game
-        self.score = 0
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
         self.enemies = pg.sprite.Group()
         self.player = Player(self)
         self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
-        # self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
         self.all_sprites.add(self.plat1)
         self.platforms.add(self.plat1)
         self.all_sprites.add(self.player)
@@ -52,13 +58,18 @@ class Game:
             p = Platform(*plat)
             self.all_sprites.add(p)
             self.platforms.add(p)
-        for i in range(0,7):
-            m = Mob(20,20,(250,0,0))
+        for i in range(1,8):
+            m = Mob1(25,25,(250,0,0))
             self.all_sprites.add(m)
             self.enemies.add(m)
+        for i in range(0,4):
+            mm = Mob2(17,17,(150,0,150))
+            self.all_sprites.add(mm)
+            self.enemies.add(mm)
         self.cd = Cooldown()
         self.cd.timer()
         self.run()
+        
     def run(self):
         self.playing = True
         while self.playing:
@@ -66,8 +77,6 @@ class Game:
             self.events()
             self.update()
             self.draw()
-
-    # win_screen = False
 
     def update(self):
         self.all_sprites.update()

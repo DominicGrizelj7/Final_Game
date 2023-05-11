@@ -24,22 +24,11 @@ class Player(Sprite):
         self.canjump = False
     def input(self):
         keystate = pg.key.get_pressed()
-        # if keystate[pg.K_w]:
-        #     self.acc.y = -PLAYER_ACC
         if keystate[pg.K_a]:
             self.acc.x = -PLAYER_ACC
-        # if keystate[pg.K_s]:
-        #     self.acc.y = PLAYER_ACC
         if keystate[pg.K_d]:
             self.acc.x = PLAYER_ACC
-        # if keystate[pg.K_p]:
-        #     if PAUSED == False:
-        #         PAUSED = True
-        #         print(PAUSED)
-        #     else:
-        #         PAUSED = False
-        #         print(PAUSED)
-    # ...
+
     def jump(self):
         self.rect.y += 1
         hits = pg.sprite.spritecollide(self, self.game.platforms, False)
@@ -66,12 +55,7 @@ class Player(Sprite):
             self.pos.y = 50
             self.vel.y = 0
             print("i am off the top of the screen...")
-    # def mob_collide(self):
-    #         hits = pg.sprite.spritecollide(self, self.game.enemies, True)
-    #         if hits:
-    #             print("you collided with an enemy...")
-    #             self.game.score += 1
-    #             print(SCORE)
+
     def update(self):
         self.acc = vec(0, PLAYER_GRAV)
         self.acc.x = self.vel.x * PLAYER_FRICTION
@@ -82,24 +66,49 @@ class Player(Sprite):
         self.inbounds()
 
 
-        
-
-
-
-class Mob(Sprite):
+class Mob1(Sprite):
     def __init__(self,width,height, color):
         Sprite.__init__(self)
-        self.width = width
-        self.height = height
+        self.width = width 
+        self.height = height 
         self.image = pg.Surface((self.width,self.height))
         self.color = color
         self.image.fill(self.color)
         self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH/2, HEIGHT/2)
-        self.pos = vec(WIDTH/2, HEIGHT/2)
-        self.vel = vec(randint(1,5),randint(1,5))
+        self.rect.center = (WIDTH/3, HEIGHT/3)
+        self.pos = vec(WIDTH/3, HEIGHT/3)
+        self.vel = vec(randint(1,3),randint(1,3))
         self.acc = vec(1,1)
         self.cofric = 0.01
+    def inbounds(self):
+        if self.rect.x > WIDTH:
+            self.vel.x *= -1
+        if self.rect.x < 0:
+            self.vel.x *= -1
+        if self.rect.y < 0:
+            self.vel.y *= -1
+        if self.rect.y > HEIGHT:
+            self.vel.y *= -1
+    def update(self):
+        self.inbounds()
+        self.pos += self.vel
+        self.rect.center = self.pos
+
+class Mob2(Sprite):
+    def __init__(self,width,height, color):
+        Sprite.__init__(self)
+        self.width = width 
+        self.height = height 
+        self.image = pg.Surface((self.width,self.height))
+        self.color = color
+        self.image.fill(self.color)
+        self.rect = self.image.get_rect()
+        self.rect.center = (WIDTH/3, HEIGHT/3)
+        self.pos = vec(WIDTH/3, HEIGHT/3)
+        self.vel = vec(randint(5,7),randint(5,7))
+        self.acc = vec(1,1)
+        self.cofric = 0.01
+
     def inbounds(self):
         if self.rect.x > WIDTH:
             self.vel.x *= -1
