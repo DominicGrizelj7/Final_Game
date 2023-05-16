@@ -11,7 +11,7 @@ MOB_FRICTION = -0.3
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 GREEN = (0, 255, 0)
-# blue is grey by the way
+# blue is gray by the way
 BLUE = (128,128,128)
 RED = (255,50,50)
 WIN = (66, 33, 22)
@@ -20,10 +20,8 @@ RUNNING = True
 PAUSED = False
 FONT = "COMICS"
 
-
-
 # This creates the platforms, which have a order of (x position, y position, x size, y size, (RGB color), platform type)
-#Plateform type defined in main
+#Platform type defined in main
 PLATFORM_LIST = [(0, HEIGHT - 40, WIDTH, 40, (200,200,200), "normal"),
                  (100, 750, 150, 10, (200,200,200), "normal"),
                  (300, 640, 300, 10, (200,200,200), "normal"),
@@ -32,7 +30,7 @@ PLATFORM_LIST = [(0, HEIGHT - 40, WIDTH, 40, (200,200,200), "normal"),
                  (WIDTH * 5 / 4 - 550, HEIGHT * 7 / 20, 100, 20, (0,177,77), "bouncey"),
                  (WIDTH * 5 / 4 - 550, HEIGHT * 4 / 20, 100, 20, (0,177,77), "bouncey"),
                  (1055, 0, 5, 475, (0,0,0), "wall"),
-                 (50, 450, 100, 10, (200,200,200), "normal"),
+                 (50, 468, 100, 10, (200,200,200), "normal"),
                  (200, 400, 100, 5, (50,255,50), "very_bouncey"),
                  (200, 20, 100, 10, (255,255,0), "1_teleport"),
                  (400, 200, 100, 10, (255,255,0), "2_teleport"),

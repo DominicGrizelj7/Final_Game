@@ -1,12 +1,12 @@
 # File created by Dominic Grizelj
-
-
-
 # Sources: http://kidscancode.org/blog/2016/08/pygame_1-1_getting-started/
 # Sources: Daniel Azevedo
 # Sources: Chris Cozert
+# Sources: David Charles
 # Sources: https://www.w3schools.com/python/python_variables.asp
-
+# Sources: https://www.w3schools.com/python/python_operators.asp
+# Sources: https://www.w3schools.com/python/python_for_loops.asp
+# Sources: https://www.w3schools.com/python/python_functions.asp
 
 # import libraries and settings
 import pygame as pg
@@ -20,7 +20,7 @@ from time import sleep
 game_folder = os.path.dirname(__file__)
 img_folder = os.path.join(game_folder, "img")
 screen = pg.display.set_mode((WIDTH, HEIGHT))
-
+# This defines the time within the game
 class Cooldown():
         def __init__(self):
             self.current_time = 0
@@ -32,7 +32,6 @@ class Cooldown():
             self.current_time = floor((pg.time.get_ticks())/1000)
 # create game class in order to pass properties to the sprites file and to organize
 # class has properties and set methods which allow sprites to do different things
-
 class Game:
     def __init__(self):
         # init game window etc.
@@ -44,7 +43,9 @@ class Game:
         self.running = True
         print(self.screen)
         self.font_name = pg.font.match_font(FONT)
-
+# This assigns the group to its parameters/variables
+# It also adds the mobs and platforms from the sprites to the actual game 
+# It uses range to give how many mobs there are and defines its color
     def new(self):
         self.all_sprites = pg.sprite.Group()
         self.platforms = pg.sprite.Group()
@@ -58,18 +59,18 @@ class Game:
             p = Platform(*plat)
             self.all_sprites.add(p)
             self.platforms.add(p)
-        for i in range(1,8):
+        for i in range(0,8):
             m = Mob1(25,25,(250,0,0))
             self.all_sprites.add(m)
             self.enemies.add(m)
-        for i in range(0,4):
+        for i in range(0,3):
             mm = Mob2(17,17,(150,0,150))
             self.all_sprites.add(mm)
             self.enemies.add(mm)
         self.cd = Cooldown()
         self.cd.timer()
         self.run()
-        
+# Updating pixels of these methods
     def run(self):
         self.playing = True
         while self.playing:
@@ -77,11 +78,17 @@ class Game:
             self.events()
             self.update()
             self.draw()
-
+# This deines the different type fof platfroms and what happens once the player collides with each
+# dissaperaing "kills" the platrom once collided
+# bouncey makes the player jump automaticly using the PLAYER JUMP from setting
+# very_bouncey does the same thing, except it multiplies the jump velocity by 4
+# wall is simply a platform that is more like a boundary. you cannot go through it and you do not get teleported to the top of it once you hit it. 
+# all of the teleports simply move the player to another location once it collides 
+# winner makes the win screen True (win screen commented on below)
+# The else at the bottom makes sure that if the player hits a platform that is not defined, it will just sit on top of it
     def update(self):
         self.all_sprites.update()
         self.cd.ticking()
-        # print(pg.time.get_ticks())
         if self.player.vel.y > 0:
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
             if hits:
@@ -94,8 +101,6 @@ class Game:
                     self.player.pos.y = hits[0].rect.top
                     self.player.vel.y = - PLAYER_JUMP * 4
                 elif hits[0].variant == "wall":
-                    # self.player.pos.x = hits[0].rect.right
-                    # self.player.pos.x = hits[0].rect.left
                     self.player.vel.x = 0
                 elif hits[0].variant == "teleport":
                     self.player.pos.x = 100
@@ -115,6 +120,11 @@ class Game:
                 elif hits[0].variant == "winner":
                     self.player.pos.x = hits[0].rect.top
                     win_screen = True
+# win screen makes a new screen over the game by screen.fill(BLACK) and then draws messages letting you know that you won and if you want to quit or retry
+# It sleeps, or does nothing for 5 seconds to avoid the screen from flickering
+# If you hit space it will retry. Once the 5 second sleep is over it will draw a countdown from 5 with 1 second sleep in between each number to make it count down
+# Once it has counted down, it will move the player back into the game at a certain spot
+# If the player hits escape, the game will quit once the 5 second sleep is over
                     if win_screen == True:
                         self.screen.fill(BLACK)
                         if 3>2:
@@ -148,8 +158,11 @@ class Game:
                 else:
                     self.player.pos.y = hits[0].rect.top
                     self.player.vel.y = 0
-
+# This makes the endscreen false at all times unless the player hits a "win" platform as defined above 
         end_screen = False
+# This says the if the player collides with an enemy, which is the Mob1 and Mob2 class, it will fill the screen black and draw Try again for 1 second while it sleeps. 
+# After the 1 second sleep is over, the player will be moved to 
+# The one flaw it has is that you can get spawn camped by a mob if it at the spawn point, but after about 10 or so seconds or so it will pass through
         if RUNNING == True:
             hit = pg.sprite.spritecollide(self.player, self.enemies, False)
             if hit:
@@ -163,7 +176,7 @@ class Game:
                 self.draw_text("TRY AGAIN", 100, RED, WIDTH/2, HEIGHT/2)
                 pg.display.flip()
                 sleep(1)
-
+# This defines all the events, like jumping if you press space and what happens if you quit
     def events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -173,7 +186,7 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     self.player.jump()
-
+# This defines the draw ability by giving its its font and how it will render/blit on screen
     def draw_text(self, text, size, color, x, y):
         font_name = pg.font.match_font('aleo')
         font = pg.font.Font(font_name, size)
@@ -181,7 +194,7 @@ class Game:
         text_rect = text_surface.get_rect()
         text_rect.midtop = (x,y)
         screen.blit(text_surface, text_rect)
-
+# this draws the background in BLUE, which is actually grey and draws text that says "door of winners" to make the end goal of the game obvious
     def draw(self):
         self.screen.fill(BLUE)
         if 5 > 2:
