@@ -162,7 +162,6 @@ class Game:
         end_screen = False
 # This says the if the player collides with an enemy, which is the Mob1 and Mob2 class, it will fill the screen black and draw Try again for 1 second while it sleeps. 
 # After the 1 second sleep is over, the player will be moved to 
-# The one flaw it has is that you can get spawn camped by a mob if it at the spawn point, but after about 10 or so seconds or so it will pass through
         if RUNNING == True:
             hit = pg.sprite.spritecollide(self.player, self.enemies, False)
             if hit:

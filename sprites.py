@@ -50,7 +50,6 @@ class Player(Sprite):
         if self.rect.y > HEIGHT:
             self.pos.y = HEIGHT -25
             self.vel.y = 0
-            
             print("i am off the bottom of the screen")
         if self.rect.y < 0:
             self.pos.y = 50
